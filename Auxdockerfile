@@ -1,0 +1,16 @@
+FROM php:7-alpine as builder
+WORKDIR /app
+COPY composer.json ./
+COPY composer.lock ./
+COPY composer.phar ./
+COPY ./couponbook/composer.json ./couponbook/composer.json
+COPY ./couponbook/composer.lock ./couponbook/composer.lock
+RUN cd /app && php composer.phar install --no-interaction --ignore-platform-reqs && cd couponbook && php ../composer.phar install --no-interaction --ignore-platform-reqs
+
+FROM php:7-alpine
+RUN apk update
+RUN docker-php-ext-install pdo pdo_mysql
+WORKDIR /app
+COPY --from=builder /app .
+COPY . .
+CMD cd /app/couponbook && php -S 0.0.0.0:8080 -t public
