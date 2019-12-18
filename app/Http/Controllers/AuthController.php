@@ -3,6 +3,7 @@ namespace  App\Http\Controllers;
 
 use App\Http\Requests\RegisterAuthRequest;
 use App\User;
+use App\UserType as Role;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -86,14 +87,16 @@ class AuthController extends Controller
 		    } catch (JWTException $e) {
                 return response()->json(['error' => 'could_not_create_token'], 500);
         }
-		    $user = User::where('user_name',$request->user_name)->first();
+            $user = User::where('user_name',$request->user_name)->first();
+            $role = Role::where('id',$user->id_user_type)->first();
 		    return  response()
 		        ->json([
           			'token' => $jwt_token,
           			'user' => [
           				'id' => $user->id,
           				'user_name' => $user->user_name,
-          				'id_user_type' => $user->id_user_type,
+                        'role_id' => $user->id_user_type,
+                        'role' => $role->code,  
           			],
           		])
 		        ->header('Authorization', 'Bearer '.$jwt_token);
