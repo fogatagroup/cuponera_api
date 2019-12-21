@@ -239,7 +239,7 @@ public function storeNewCustomers(Request $request)
                 $resultado->execute();
                 // UPDATE sobre el campo status en la tabla cupones "couoffer_detail"
                 $status = 0;
-                $date_update = null; //TODO: CHANGE
+                $date_update = $date_update = Carbon::now()->toDateTimeString();
                 $sql3 = "UPDATE couoffer_detail SET status = :status, date_update = :date_update WHERE couoffer_detail.id = $conv";
                 $resultado = $db->prepare($sql3);
                 $resultado->bindParam(':status', $status);
@@ -283,7 +283,7 @@ public function storeNewCustomers(Request $request)
         $country = $request->country;
         $instagram = $request->instagram;
         $facebook = $request->facebook;
-        $date_update = null; //TODO: CHANGE
+        $date_update =$date_update = Carbon::now()->toDateTimeString();
 
         $sql = "UPDATE customers SET
                 lastname = :lastname,
