@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use JWTAuth;
 use App\Customer;
 use App\Notifications\CapturedNewCouponByCustomer;
+use Carbon\Carbon;
 
 class CustomerController extends Controller
 {
@@ -163,7 +164,8 @@ public function storeNewCustomers(Request $request)
     $country = $request->country;
     $instagram = $request->instagram;
     $facebook = $request->facebook;
-    $date_created = null; //TODO: CHANGE
+    $date_created = Carbon::now()->toDateTimeString();
+    $date_update = Carbon::now()->toDateTimeString();
     $id_coupon = $request->id_coupon;
     //$channel = $request->channel;
     $channel = $queryParam['channel'] ?? '';
@@ -185,7 +187,7 @@ public function storeNewCustomers(Request $request)
         //Aqui reviso el registro de un cliente
         //Insert datos de customers
         $sql = "INSERT INTO customers (identification_id, firstname, lastname, telephone, email,birthdate,address, city, country, instagram, facebook, date_created,date_update) VALUES
-          (:identification_id,:firstname, :lastname, :telephone, :email, :birthdate, :address, :city, :country, :instagram,:facebook, :date_created,NULL)";
+          (:identification_id,:firstname, :lastname, :telephone, :email, :birthdate, :address, :city, :country, :instagram,:facebook, :date_created,:date_update)";
         $resultado = $db->prepare($sql);
         $resultado->bindParam(':identification_id', $identification_id);
         $resultado->bindParam(':firstname', $firstname);
@@ -199,6 +201,7 @@ public function storeNewCustomers(Request $request)
         $resultado->bindParam(':instagram', $instagram);
         $resultado->bindParam(':facebook', $facebook);
         $resultado->bindParam(':date_created', $date_created);
+        $resultado->bindParam(':date_update', $date_update);
         $resultado->execute();
         $lastId = $db->lastInsertId();
       }
