@@ -77,6 +77,7 @@ class CustomerController extends Controller
             }
         } catch (\PDOException $e) {
             echo '{"error" : {"text":' . $e->getMessage() . '}';
+            \Log::error(['getAllCustomers Error' => $e->getMessage()]);
         }
     }
 
@@ -103,6 +104,7 @@ class CustomerController extends Controller
             }
         } catch (\PDOException $e) {
             echo '{"error" : {"text":' . $e->getMessage() . '}';
+            \Log::error(['getCustomersCaptureById Error' => $e->getMessage()]);
         }
     }
 
@@ -165,10 +167,10 @@ public function storeNewCustomers(Request $request)
     $instagram = $request->instagram;
     $facebook = $request->facebook;
     $date_created = Carbon::now()->toDateTimeString();
-    $date_update = Carbon::now()->toDateTimeString();
     $id_coupon = $request->id_coupon;
-    //$channel = $request->channel;
     $channel = $queryParam['channel'] ?? '';
+    
+    
 
     try {
       //Select para obtener id customers
@@ -187,7 +189,7 @@ public function storeNewCustomers(Request $request)
         //Aqui reviso el registro de un cliente
         //Insert datos de customers
         $sql = "INSERT INTO customers (identification_id, firstname, lastname, telephone, email,birthdate,address, city, country, instagram, facebook, date_created,date_update) VALUES
-          (:identification_id,:firstname, :lastname, :telephone, :email, :birthdate, :address, :city, :country, :instagram,:facebook, :date_created,:date_update)";
+          (:identification_id,:firstname, :lastname, :telephone, :email, :birthdate, :address, :city, :country, :instagram,:facebook, :date_created, null)";
         $resultado = $db->prepare($sql);
         $resultado->bindParam(':identification_id', $identification_id);
         $resultado->bindParam(':firstname', $firstname);
@@ -201,7 +203,6 @@ public function storeNewCustomers(Request $request)
         $resultado->bindParam(':instagram', $instagram);
         $resultado->bindParam(':facebook', $facebook);
         $resultado->bindParam(':date_created', $date_created);
-        $resultado->bindParam(':date_update', $date_update);
         $resultado->execute();
         $lastId = $db->lastInsertId();
       }
@@ -239,7 +240,7 @@ public function storeNewCustomers(Request $request)
                 $resultado->execute();
                 // UPDATE sobre el campo status en la tabla cupones "couoffer_detail"
                 $status = 0;
-                $date_update = $date_update = Carbon::now()->toDateTimeString();
+                $date_update = Carbon::now()->toDateTimeString();
                 $sql3 = "UPDATE couoffer_detail SET status = :status, date_update = :date_update WHERE couoffer_detail.id = $conv";
                 $resultado = $db->prepare($sql3);
                 $resultado->bindParam(':status', $status);
@@ -260,6 +261,7 @@ public function storeNewCustomers(Request $request)
       }
     } catch (\PDOException $e) {
       echo '{"error" : {"text":' . $e->getMessage() . '}';
+      \Log::error(['StoreNewCustomer Error' => $e->getMessage()]);
     }
   } else {
     echo json_encode("Oferta fuera de tiempo.");
@@ -283,7 +285,7 @@ public function storeNewCustomers(Request $request)
         $country = $request->country;
         $instagram = $request->instagram;
         $facebook = $request->facebook;
-        $date_update =$date_update = Carbon::now()->toDateTimeString();
+        $date_update = Carbon::now()->toDateTimeString();
 
         $sql = "UPDATE customers SET
                 lastname = :lastname,
@@ -315,6 +317,7 @@ public function storeNewCustomers(Request $request)
             echo json_encode("Cliente modificado.");
         } catch (\PDOException $e) {
             echo '{"error" : {"text":' . $e->getMessage() . '}';
+            \Log::error(['updateCustomersById Error' => $e->getMessage()]);
         }
     }
 
@@ -342,6 +345,7 @@ public function storeNewCustomers(Request $request)
             }
         } catch (\PDOException $e) {
             echo '{"error" : {"text":' . $e->getMessage() . '}';
+            \Log::error(['deleteCustomersById Error' => $e->getMessage()]);
         }
     }
 }
