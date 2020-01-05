@@ -55,10 +55,15 @@ Route::delete('/sales/delete/{id}', 'SalesController@deleteSalesById');
 
 //Company Begin Endpoint
 Route::get('/allcompanies', 'CompanyController@getAllCompanyInDb');
+Route::get('/company/img/${id}', 'CompanyController@getImgPerCompanyId');
 //End Company Begin Endpoint
 
 //Transaction Begin Endpoint
 Route::get('/alltransaction', 'TransactionController@getAllTransactionInDb');
 //End Transaction Endpoint
+
+//Payment Begin Endpoint
+Route::post('/transaction/send', 'PaymentController@sendPaymentToProcessor');
+//End Payment Endpoint
 
 

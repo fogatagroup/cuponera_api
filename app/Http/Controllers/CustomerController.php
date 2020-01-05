@@ -184,6 +184,7 @@ public function storeNewCustomers(Request $request)
         foreach ($idcustomers as $idcustomers) {
           $idcustomers_id = $idcustomers->id;
         }
+        
         $lastId =  intval($idcustomers_id);
       } else {
         //Aqui reviso el registro de un cliente
