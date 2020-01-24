@@ -55,6 +55,7 @@ Route::delete('/sales/delete/{id}', 'SalesController@deleteSalesById');
 
 //Company Begin Endpoint
 Route::get('/allcompanies', 'CompanyController@getAllCompanyInDb');
+Route::post('/company/configure', 'CompanyController@configureCompany');
 Route::get('/company/img/${id}', 'CompanyController@getImgPerCompanyId');
 //End Company Begin Endpoint
 

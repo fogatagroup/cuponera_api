@@ -511,7 +511,6 @@ CREATE TABLE `user_type` (
 
 LOCK TABLES `user_type` WRITE;
 /*!40000 ALTER TABLE `user_type` DISABLE KEYS */;
-INSERT INTO `user_type` VALUES (1,'AD','ADMINISTRADOR','Rol con todos los permisos','2019-09-20 18:11:48',NULL),(2,'UC','USUARIO CAJERO','Rol solo con permisos de cajero','2019-09-20 18:11:48',NULL),(3,'UPB','USUARIO PRUEBA','Rol solo con permisos de acceso LIMITADO','2019-03-09 23:44:57','2019-03-09 16:03:57'),(4,'APB','ADMIN PRUEBA','Rol solo con permisos de acceso controlado LIMITADO','2019-03-19 08:21:09','2019-03-19 13:03:09'),(5,'AQA','ADMIN QA','Rol solo con permisos de ADMINISTRADOR MAXIMO','2019-03-19 13:03:28',NULL);
 /*!40000 ALTER TABLE `user_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -545,7 +544,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin','1234',2,1,'2019-09-20 18:14:21',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 

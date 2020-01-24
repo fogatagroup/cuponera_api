@@ -73,7 +73,7 @@ class CustomerController extends Controller
                 }
                 echo json_encode($response);
             } else {
-                echo json_encode("No existen clientes en la BBDD.");
+                echo json_encode([]);
             }
         } catch (\PDOException $e) {
             echo '{"error" : {"text":' . $e->getMessage() . '}';
